@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <!-- PWA meta -->
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="theme-color" content="#2563eb">
+
+  <!-- Manifest -->
+  <link rel="manifest" href="manifest.json">
+
+  <!-- Icons (using placeholders) -->
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🗾</text></svg>">
+  <link rel="apple-touch-icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🗾</text></svg>">
+
+  <title>Xavions Japan Route Finder</title>
+  <link rel="stylesheet" href="style.css">
+  
+  <!-- Add the toast CSS here -->
+  <style>
+    .spinner {
+        display: inline-block;
+        width: 20px;
+        height: 20px;
+        margin-right: 8px;
+        border: 3px solid rgba(255,255,255,.3);
+        border-radius: 50%;
+        border-top-color: #fff;
+        animation: spin 1s ease-in-out infinite;
+        vertical-align: middle;
+    }
+
+    @keyframes spin {
+        to { transform: rotate(360deg); }
+    }
+
+    .toast {
+        position: fixed;
+        bottom: 20px;
+        left: 50%;
+        transform: translateX(-50%) translateY(100px);
+        background: #1f2937;
+        color: white;
+        padding: 12px 24px;
+        border-radius: 12px;
+        z-index: 1000;
+        transition: transform 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+        font-size: 14px;
+        font-weight: 500;
+        box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+        max-width: 90%;
+        text-align: center;
+        opacity: 0;
+    }
+
+    .toast.show {
+        transform: translateX(-50%) translateY(0);
+        opacity: 1;
+    }
+
+    .toast-success {
+        background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+    }
+
+    .toast-error {
+        background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
+    }
+
+    .toast-warning {
+        background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
+    }
+
+    .toast-info {
+        background: linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%);
+    }
+  </style>
+</head>
+<body>
+    <div class="header">
+        <h1>🗾 Xavions Japan Route Finder</h1>
+        <p>Discover food & activities along your way</p>
+    </div>
+    
+    <div class="container">
+
+        <div class="search-card">
+            <div class="input-group">
+                <label>📍 Current Location</label>
+                <input type="text" id="currentLocation" placeholder="e.g., Shibuya Station" value="Getting your location...">
+                <button class="btn-location" id="locationBtn">
+                    📍 Use My Current Location
+                </button>
+            </div>
+            
+            <div class="input-group">
+                <label>🎯 Destination</label>
+                <input type="text" id="destination" placeholder="e.g., Tokyo Tower">
+            </div>
+            
+            <button class="btn-primary" id="searchBtn">Find Places Along Route</button>
+        </div>
+        
+        <div id="mapContainer" style="display: none;">
+            <div class="map-container">
+                <div id="map"></div>
+            </div>
+        </div>
+        
+        <div id="filters" style="display: none;" class="filters">
+            <button class="filter-btn active" onclick="filterPlaces('all')">All</button>
+            <button class="filter-btn" onclick="filterPlaces('restaurant')">🍜 Food</button>
+            <button class="filter-btn" onclick="filterPlaces('tourist_attraction')">🎌 Shit To Do</button>
+        </div>
+        
+        <div id="loading" style="display: none;" class="loading">
+            <p>🔍 Searching for places ninja, so just wait...</p>
+        </div>
+        
+        <div id="results"></div>
+        
+        <div class="empty-state" id="emptyState">
+            <p style="font-size: 48px; margin-bottom: 16px;">🗺️</p>
+            <p>Enter where you want to go bastard. I'm waiting...</p>
+        </div>
+    </div>
+
+<script src="script.js"></script>
+
+<!-- Google Maps will be loaded dynamically by script.js -->
+</body>
+</html>
